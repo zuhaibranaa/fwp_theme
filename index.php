@@ -74,7 +74,6 @@ if ( $the_query->have_posts() ) {
 get_search_form();
 ?>
     <div class="container">
-
         <div class="properties-listing spacer">
             <a href="buysalerent.php" class="pull-right viewall">View All Listing</a>
             <h2>Featured Properties</h2>
@@ -95,10 +94,10 @@ get_search_form();
 							?></p>
                         <div class="listing-detail">
 							<?php
-							foreach ( get_categories( array( 'taxonomy' => 'zb_property_features' ) ) as $key => $value ) {
+							$dd = get_the_terms( get_the_ID(), 'zb_property_features' );
+							foreach ( $dd as $key => $value ) {
 								$a = explode( '-', $value->name );
-								echo "<span data-toggle='tooltip' data-placement='bottom'
-                                          data-original-title='$a[1]'>$a[0]</span>";
+								echo "<span data-toggle='tooltip' data-placement='bottom' data-original-title='$a[1]'>$a[0]</span>";
 							}
 							?>
                         </div>
@@ -107,7 +106,6 @@ get_search_form();
 				<?php }
 				wp_reset_postdata();
 				?>
-
             </div>
         </div>
         <div class="spacer">

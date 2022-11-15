@@ -53,7 +53,7 @@ function register_new_post(): void {
                 <input style="margin-top: 0.5rem; width: 100%" type="number" name="zb_property_price"
                        id="zb_property_price"
                        value="<?php echo isset( $_GET['post'] ) ? get_post_meta( $_GET['post'] )['price'][0] : ''; ?>"
-                       placeholder="Price">            </div>
+                       placeholder="Price"></div>
 		<?php }
 
 		add_meta_box( 'property_settings_mb', 'Property Settings', 'property_settings_mb_fields', 'zb_property', 'side', 'high' );
@@ -125,58 +125,62 @@ function register_new_post(): void {
 
 add_action( 'init', 'register_new_post' );
 add_action( 'zb_property_currencies_add_form_fields', 'add_property_term_fields' );
-function add_property_term_fields($taxonomy){
+function add_property_term_fields( $taxonomy ) {
 	?>
 
     <div class="form-field">
         <label class="form-label" for="text_field">Text Field</label>
-        <input type="text" name="text_field" value="" id="text_field" />
+        <input type="text" name="text_field" value="" id="text_field"/>
         <p>Field description may go here.</p>
     </div>
 	<?php
 }
 
-add_action( 'created_zb_property_currencies', 'save_feature_meta');
-function save_feature_meta( $term_id){
-	if( isset( $_POST['text_field'] )){
+add_action( 'created_zb_property_currencies', 'save_data_from_custom_column_of_currencies' );
+function save_data_from_custom_column_of_currencies( $term_id ) {
+	if ( isset( $_POST['text_field'] ) ) {
 		$group = sanitize_title( $_POST['text_field'] );
 		update_term_meta( $term_id, 'text_field', $group, true );
 	}
 }
-function custom_currency_col($param){
+
+function custom_currency_col( $param ) {
 	$param['text_field'] = __( 'Text Field', 'text_field' );
-    return $param;
+
+	return $param;
 }
 
-function add_feature_group_column_content( $content, $column_name, $term_id ){
-	if( $column_name == 'text_field' ){
-		return esc_attr( get_term_meta( $term_id, 'text_field', true ));
+function add_contents_to_custom_field_for_currencies( $content, $column_name, $term_id ) {
+	if ( $column_name == 'text_field' ) {
+		return esc_attr( get_term_meta( $term_id, 'text_field', true ) );
 	}
 }
 
-function add_feature_group_column_sortable( $sortable ){
-	$sortable[ 'text_field' ] = 'text_field';
-	return $sortable;
-}
-function add_term_fields($taxonomy){
-	$t_id = $taxonomy->term_id?? '';
+function add_custom_field_to_currencies_taxonomy( $taxonomy ) {
+	$t_id = $taxonomy->term_id ?? '';
 
 	?>
-	<table id="custom_user_field_table" class="form-table">
+    <table id="custom_user_field_table" class="form-table">
         <tr id="custom_user_field_row">
             <th>
                 <label class="form-label" for="text_field">Text Field</label>
             </th>
             <td>
-                <input type="text" name="text_field" value="<?php echo get_term_meta($t_id,'text_field',true) ?? ""; ?>" id="text_field" />
+                <input type="text" name="text_field"
+                       value="<?php echo get_term_meta( $t_id, 'text_field', true ) ?? ""; ?>" id="text_field"/>
                 <p>Field description may go here.</p>
             </td>
         </tr>
     </table>
-    <?php
+	<?php
 }
-add_action( 'zb_property_currencies_edit_form_fields', 'add_term_fields', 10 );
-add_action( 'manage_zb_property_currencies_custom_column', 'add_feature_group_column_content', 10, 3);
-add_action( 'edited_zb_property_currencies', 'save_feature_meta', 10 );
-add_filter( 'manage_edit-zb_property_currencies_sortable_columns', 'add_feature_group_column_sortable' );
-add_action('manage_edit-zb_property_currencies_columns','custom_currency_col');
+
+add_action( 'zb_property_currencies_edit_form_fields', 'add_custom_field_to_currencies_taxonomy', 10 );
+add_action( 'manage_zb_property_currencies_custom_column', 'add_contents_to_custom_field_for_currencies', 10, 3 );
+add_action( 'edited_zb_property_currencies', 'save_data_from_custom_column_of_currencies', 10 );
+add_filter( 'manage_edit-zb_property_currencies_sortable_columns', function ( $sortable ) {
+	$sortable['text_field'] = 'text_field';
+
+	return $sortable;
+} );
+add_action( 'manage_edit-zb_property_currencies_columns', 'custom_currency_col' );

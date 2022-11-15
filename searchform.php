@@ -1,4 +1,4 @@
-<form role="search" method="get" action="<?php echo home_url( '/' ); ?>">
+<form role="search" method="GET" action="<?php echo home_url( '/' ); ?>">
     <div class="banner-search">
         <div class="container">
             <!-- banner -->

@@ -7,31 +7,34 @@ require trailingslashit( get_template_directory() ) . "hooks/RecommendedProperti
 
 function green_property_register_widgets() {
 	register_sidebar( array(
-		'name'          => __( 'Footer - 1', 'ranazuhaib' ),
-		'id'            => 'footer-1',
-		'description'   => __( 'Widgets in this area will be shown on all posts and pages.', 'ranazuhaib' ),
+		'name'        => __( 'Footer - 1', 'ranazuhaib' ),
+		'id'          => 'footer-1',
+		'description' => __( 'Widgets in this area will be shown on all posts and pages.', 'ranazuhaib' ),
 	) );
 	register_sidebar( array(
-		'name'          => __( 'recommended - 1', 'ranazuhaib' ),
-		'id'            => 'recommended-1',
-		'description'   => __( 'Widgets in this area will be shown on all posts and pages.', 'ranazuhaib' )
+		'name'        => __( 'recommended - 1', 'ranazuhaib' ),
+		'id'          => 'recommended-1',
+		'description' => __( 'Widgets in this area will be shown on all posts and pages.', 'ranazuhaib' )
 	) );
 	register_widget( Contact_Widget::class );
 	register_widget( RecommendedPropertiesWidget::class );
 }
+
 add_action( 'widgets_init', 'green_property_register_widgets' );
 
 // Custom POST TYPE Columns
-add_filter('manage_zb_property_posts_columns' , 'custom_post_type_columns');
-function custom_post_type_columns($columns){
-    $columns['price'] = 'Price';
-    return $columns;
+add_filter( 'manage_zb_property_posts_columns', 'custom_post_type_columns' );
+function custom_post_type_columns( $columns ) {
+	$columns['price'] = 'Price';
+
+	return $columns;
 }
-add_action( 'manage_zb_property_posts_custom_column', 'fill_custom_post_type_columns', 10, 2);
-function fill_custom_post_type_columns( $column, $post_id ){
+
+add_action( 'manage_zb_property_posts_custom_column', 'fill_custom_post_type_columns', 10, 2 );
+function fill_custom_post_type_columns( $column, $post_id ) {
 	// Fill in the columns with meta box info associated with each post
-	if ($column === 'price'){
-		echo get_post_meta( $post_id ,'price', true );
+	if ( $column === 'price' ) {
+		echo get_post_meta( $post_id, 'price', true );
 	}
 }
 
@@ -85,10 +88,22 @@ function extra_profile_fields( $user ) {
 
 function fb_save_custom_user_profile_fields( $user_id ) {
 
-	if ( !current_user_can( 'edit_user', $user_id ) )
-		return FALSE;
+	if ( ! current_user_can( 'edit_user', $user_id ) ) {
+		return false;
+	}
 
 	update_user_meta( $user_id, 'user_contact_number', $_POST['user_contact_number'] );
 }
+
 add_action( 'personal_options_update', 'fb_save_custom_user_profile_fields' );
 add_action( 'edit_user_profile_update', 'fb_save_custom_user_profile_fields' );
+
+function control_search_results() {
+	if ( is_search() ) {
+		set_query_var( 'posts_per_page', 3 ); // Change 10 to the number of search results you want to appear per page.
+		set_query_var( 'post_type', 'zb_property' ); // Change 10 to the number of search results you want to appear per page.
+		set_query_var( 'post_status', 'publish' ); // Change 10 to the number of search results you want to appear per page.
+	}
+}
+
+add_filter( 'pre_get_posts', 'control_search_results' );
