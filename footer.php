@@ -1,3 +1,4 @@
+<?php wp_footer(); ?>
 <div class="footer">
 
     <div class="container">
@@ -79,7 +80,8 @@
                 <div class="col-sm-6">
                     <h4>New User Sign Up</h4>
                     <p>Join today and get updated with all the properties deal happening around.</p>
-                    <button type="submit" class="btn btn-info" onclick="window.location.href='<?php echo get_home_url('/')."/register" ?>'">Join Now
+                    <button type="submit" class="btn btn-info"
+                            onclick="window.location.href='<?php echo get_home_url( '/' ) . "/register" ?>'">Join Now
                     </button>
                 </div>
 

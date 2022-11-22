@@ -1,5 +1,6 @@
 <?php
 get_header();
+the_content();
 // The Query
 
 $args      = array(
