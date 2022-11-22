@@ -12,33 +12,57 @@
                                title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>"/>
                         <div class="row">
                             <div class="col-lg-3 col-sm-3 ">
-                                <select class="form-control">
-                                    <option>Buy</option>
-                                    <option>Rent</option>
-                                    <option>Sale</option>
+                                <select name="currency" class="form-control">
+                                    <option value="" selected disabled>Currency</option>
+
+		                            <?php
+		                            $ar = get_terms( 'zb_property_currencies' );
+
+		                            foreach ( $ar as $key => $value ) {
+			                            echo "<option value='$value->term_id'>$value->name</option>";
+		                            }
+		                            ?>
                                 </select>
                             </div>
                             <div class="col-lg-3 col-sm-4">
-                                <select class="form-control">
-                                    <option>Price</option>
-                                    <option>$150,000 - $200,000</option>
-                                    <option>$200,000 - $250,000</option>
-                                    <option>$250,000 - $300,000</option>
-                                    <option>$300,000 - above</option>
+                                <select name="features" class="form-control">
+                                    <option selected disabled>Features</option>
+
+		                            <?php
+		                            $ar = get_terms( 'zb_property_features' );
+
+		                            foreach ( $ar as $key => $value ) {
+			                            echo "<option value='$value->term_id'>$value->name</option>";
+		                            }
+		                            ?>
                                 </select>
                             </div>
                             <div class="col-lg-3 col-sm-4">
-                                <select class="form-control">
-                                    <option>Property</option>
-                                    <option>Apartment</option>
-                                    <option>Building</option>
-                                    <option>Office Space</option>
+                                <select name="location" class="form-control">
+                                    <option value="" selected disabled>Location</option>
+		                            <?php
+		                            $ar = get_terms( 'zb_property_locations' );
+		                            foreach ( $ar as $key => $value ) {
+			                            echo "<option value='$value->term_id'>$value->name</option>";
+		                            }
+		                            ?>
+
                                 </select>
                             </div>
                             <div class="col-lg-3 col-sm-4">
                                 <input type="submit" class="btn btn-success"
                                        value="<?php echo esc_attr_x( 'Find Now', 'submit button' ) ?>"/>
                             </div>
+                            <div class="col-lg-12 col-sm-12">
+                                <label for="inputPieces">Price</label>
+                                <input type="range" name="price" id="inputPieces" multiple value="0,999999" min="0" max="999999" />
+                            </div>
+                            <script>
+                                OmRangeSlider.init({
+                                    inputValueStyle: OmRangeSliderInputValueStyles.PHP_ARRAY
+                                });
+                            </script>
+
                         </div>
 
 

@@ -6,8 +6,12 @@
     <meta charset="UTF-8"/>
     <link rel="icon" type="image/x-icon" href="<?php get_site_icon_url() ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<?php echo get_template_directory_uri() ?>/assets/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.css' ?>"/>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() . '/assets/style.css' ?>"/>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() . "/assets/bootstrap/css/bootstrap.css" ?>"/>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() . "/assets/style.css" ?>"/>
     <link rel="stylesheet" href="<?php echo get_template_directory_uri() ?>/assets/style.css"/>
+    <link rel="stylesheet" href="<?php echo get_template_directory_uri() ?>/assets/om-javascript-range-slider.css"/>
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="<?php echo get_template_directory_uri() ?>/assets/bootstrap/js/bootstrap.js"></script>
     <script src="<?php echo get_template_directory_uri() ?>/assets/script.js"></script>
@@ -91,12 +95,13 @@
 
     <!-- Header Starts -->
     <div class="header">
-        <a href="<?php print_r( get_site_url() ) ?>"><img src="<?php echo get_template_directory_uri() ?>/images/logo.png" alt="Realestate"></a>
+        <a href="<?php print_r( get_site_url() ) ?>"><img
+                    src="<?php echo get_template_directory_uri() ?>/images/logo.png" alt="Realestate"></a>
 
         <ul class="pull-right">
-<!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Buy</a></li>-->
-<!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Sale</a></li>-->
-<!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Rent</a></li>-->
+            <!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Buy</a></li>-->
+            <!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Sale</a></li>-->
+            <!--            <li><a href="--><?php //print_r( get_site_url() ) ?><!--">Rent</a></li>-->
         </ul>
     </div>
     <!-- #Header Starts -->

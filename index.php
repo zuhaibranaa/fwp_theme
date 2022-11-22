@@ -24,7 +24,8 @@ if ( $the_query->have_posts() ) {
                     <div class="sl-slide" data-orientation="horizontal" data-slice1-rotation="-25"
                          data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
                         <div class="sl-slide-inner">
-                            <div class="bg-img bg-img-1">
+                            <div class="bg-img"
+                                 style="background-image: url('<?php echo get_the_post_thumbnail_url() ?>')">
                             </div>
                             <h2><a href="<?php echo get_permalink() ?>"><?php echo get_the_title(); ?></a></h2>
                             <blockquote>
@@ -111,17 +112,17 @@ get_search_form();
         <div class="spacer">
             <div class="row">
                 <div class="col-lg-6 col-sm-9 recent-view">
-                    <h3>About Us</h3>
-                    <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.
-                        Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced
-                        in their exact original form, accompanied by English versions from the 1914 translation by H.
-                        Rackham.<br><a href="about.php">Learn More</a></p>
-
-                </div>
-                <div class="col-lg-5 col-lg-offset-1 col-sm-3 recommended">
-					<?php if ( is_active_sidebar( 'recommended-1' ) ) {
-						dynamic_sidebar( 'recommended-1' );
-					} ?>
+                    <!--                    <h3>About Us</h3>-->
+                    <!--                    <p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.-->
+                    <!--                        Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced-->
+                    <!--                        in their exact original form, accompanied by English versions from the 1914 translation by H.-->
+                    <!--                        Rackham.<br><a href="about.php">Learn More</a></p>-->
+                    <!---->
+                    <!--                </div>-->
+                    <!--                <div class="col-lg-5 col-lg-offset-1 col-sm-3 recommended">-->
+                    <!--					--><?php //if ( is_active_sidebar( 'recommended-1' ) ) {
+					//						dynamic_sidebar( 'recommended-1' );
+					//					} ?>
                 </div>
             </div>
         </div>

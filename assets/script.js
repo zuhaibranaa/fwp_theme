@@ -1,78 +1,130 @@
-  $(document).ready(function() {
-   $("#owl-example").owlCarousel();
-  $('.listing-detail span').tooltip('hide');
-        $('.carousel').carousel({
-            interval: 3000
-        }); 
-        $('.carousel').carousel('cycle');
- }); 
+jQuery(document.body).trigger('post-load');
+const abc = (e) => {
+    let data = $('#hidden_load_more_form').serialize();
+    let page = $('#page_number').val((c, p) => {
+        return ++p;
+    })
+    jQuery.post(ajax_object.ajax_url, {
+            action: "get_my_properties",
+            data,
+        },
+        (response) => {
+            $('#properties').html(function (index, currentcontent) {
+                currentcontent += response;
+                return currentcontent;
+            });
+        }
+    );
 
-
-
-
-  $(function() {
-      
-        var Page = (function() {
-
-        	
-          var $nav = $( '#nav-dots > span' ),
-            slitslider = $( '#slider' ).slitslider( {
-              onBeforeChange : function( slide, pos ) {
-
-                $nav.removeClass( 'nav-dot-current' );
-                $nav.eq( pos ).addClass( 'nav-dot-current' );
-
-              }
-            } ),
-
-            init = function() {
-
-              initEvents();
-              
+}
+const submitRegisterForm = () => {
+    let data = $('#register_form_1').serializeArray();
+    let d = {};
+    $.each(data, function (i, field) {
+        d[field.name] = field.value;
+    });
+    if (d.password === d.confirm_password) {
+        delete d.confirm_password;
+        jQuery.post(ajax_object.ajax_url, {
+                action: "create_new_user",
+                ...d,
             },
-            initEvents = function() {
+            (response) => {
+                alert(response);
+            }
+        );
+    } else {
+        throw DOMException.VALIDATION_ERR;
+    }
+}
+const submitLoginForm = ()=>{
+    let data = $('#sign_in_form').serializeArray();
+    let d = {};
+    $.each(data, function (i, field) {
+        d[field.name] = field.value;
+    });
+    jQuery.post(ajax_object.ajax_url, {
+            action: "login_user",
+            ...d,
+        },
+        (response) => {
+            alert(response);
+        }
+    );
 
-              $nav.each( function( i ) {
-              
-                $( this ).on( 'click', function( event ) {
-                  
-                  var $dot = $( this );
-                  
-                  if( !slitslider.isActive() ) {
+}
+$(document).ready(function () {
 
-                    $nav.removeClass( 'nav-dot-current' );
-                    $dot.addClass( 'nav-dot-current' );
-                  
-                  }
-                  
-                  slitslider.jump( i + 1 );
-                  return false;
-                
-                } );
-                
-              } );
+    $("#owl-example").owlCarousel();
+    $('.listing-detail span').tooltip('hide');
+    $('.carousel').carousel({
+        interval: 3000
+    });
+    $('.carousel').carousel('cycle');
+});
+
+$(document).ready(abc);
+
+$(function () {
+
+    var Page = (function () {
+
+
+        var $nav = $('#nav-dots > span'),
+            slitslider = $('#slider').slitslider({
+                onBeforeChange: function (slide, pos) {
+
+                    $nav.removeClass('nav-dot-current');
+                    $nav.eq(pos).addClass('nav-dot-current');
+
+                }
+            }),
+
+            init = function () {
+
+                initEvents();
+
+            },
+            initEvents = function () {
+
+                $nav.each(function (i) {
+
+                    $(this).on('click', function (event) {
+
+                        var $dot = $(this);
+
+                        if (!slitslider.isActive()) {
+
+                            $nav.removeClass('nav-dot-current');
+                            $dot.addClass('nav-dot-current');
+
+                        }
+
+                        slitslider.jump(i + 1);
+                        return false;
+
+                    });
+
+                });
 
             };
 
-            return { init : init };
+        return {init: init};
 
-        })();
+    })();
 
-        Page.init();
+    Page.init();
 
-        /**
-         * Notes: 
-         * 
-         * example how to add items:
-         */
+    $("#load_more").on({
+        click: abc,
+    });
+    $('#register_form_1_reg_btn').on({
+        click: submitRegisterForm
+    });
+    $('#sign_in_button').on({
+        click: submitLoginForm
+    });
 
-        /*
-        
-        var $items  = $('<div class="sl-slide sl-slide-color-2" data-orientation="horizontal" data-slice1-rotation="-5" data-slice2-rotation="10" data-slice1-scale="2" data-slice2-scale="1"><div class="sl-slide-inner bg-1"><div class="sl-deco" data-icon="t"></div><h2>some text</h2><blockquote><p>bla bla</p><cite>Margi Clarke</cite></blockquote></div></div>');
-        
-        // call the plugin's add method
-        ss.add($items);
 
-        */
-      
-      });
+
+});
