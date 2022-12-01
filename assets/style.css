@@ -5,7 +5,13 @@ src: url('fonts/din.eot?#iefix') format('embedded-opentype'), url('fonts/din.wof
 font-weight: normal;
 font-style: normal;
 }
-
+#map{
+    height: 300px;
+    margin-bottom: 3%;
+}
+.dropzone{
+    height: 400px;
+}
 body {	color:#555;	font:normal 13px/22px Arial;	background:url(../images/bgmain.png) #eee;}
 
 h1,h2,h3,h4,h5 { font-weight:normal; font-family: din;margin: 0;padding: 0;color: #000}

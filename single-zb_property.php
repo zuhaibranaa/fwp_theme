@@ -60,12 +60,20 @@ if ( have_posts() ) {
                                         <!-- Indicators -->
                                         <ol class="carousel-indicators hidden-xs">
                                             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+											<?php $i = 1; foreach(get_attached_media('image/*',get_the_ID()) as $media=>$image)  ?>
+											<li data-target="#myCarousel" data-slide-to="<?php echo $i++ ?>"></li>
+											<?php ?>
                                         </ol>
                                         <div class="carousel-inner">
                                             <!-- Item 1 -->
                                             <div class="item active">
 												<?php echo get_the_post_thumbnail() ?>
                                             </div>
+											<?php foreach(get_attached_media('image/*',get_the_ID()) as $media=>$image)  ?>
+											<div class="item">
+												<img width="1350" height="617" src="<?php print_r( $image->guid ) ?>" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" decoding="async">
+                                            </div>
+											<?php ?>
                                         </div>
                                         <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span
                                                     class="glyphicon glyphicon-chevron-left"></span></a>
@@ -114,6 +122,15 @@ if ( have_posts() ) {
                                         </p>
 
                                         <div class="profile" style="text-transform: capitalize">
+											<?php
+											if ( get_current_user_id() == get_the_author_meta( 'ID' ) ):
+												?>
+                                                <a href="<?php echo get_home_url() . '/elementor-551/?id=' . get_the_ID() ?>"
+                                                   class="btn btn-primary">Edit This
+                                                    Property</a>
+											<?php
+											endif
+											?>
                                             <span class="glyphicon glyphicon-user"></span> Agent Details
                                             <p><?php
 												echo get_the_author_meta( 'display_name' )
@@ -126,7 +143,7 @@ if ( have_posts() ) {
                                     <h6><span class="glyphicon glyphicon-home"></span> Features</h6>
                                     <div class="listing-detail">
 										<?php
-										foreach ( get_categories( array( 'taxonomy' => 'zb_property_features' ) ) as $key => $value ) {
+										foreach ( get_the_terms( get_the_ID(), 'zb_property_features' ) as $key => $value ) {
 											$a = explode( '-', $value->name );
 											echo "<span data-toggle='tooltip' data-placement='bottom'
                                           data-original-title='$a[1]'>$a[0]</span>";

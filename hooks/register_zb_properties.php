@@ -53,7 +53,22 @@ function register_new_post(): void {
                 <input style="margin-top: 0.5rem; width: 100%" type="number" name="zb_property_price"
                        id="zb_property_price"
                        value="<?php echo isset( $_GET['post'] ) ? get_post_meta( $_GET['post'] )['price'][0] : ''; ?>"
-                       placeholder="Price"></div>
+                       placeholder="Price">
+            </div>
+            <div class="container">
+                <label for="latitude">Latitude : </label>
+                <input style="margin-top: 0.5rem; width: 100%" type="text" name="zb_property_latitude"
+                       id="zb_property_latitude"
+                       value="<?php echo isset( $_GET['post'] ) ? get_post_meta( $_GET['post'] )['latitude'][0] : ''; ?>"
+                       placeholder="Latitude">
+            </div>
+            <div class="container">
+                <label for="longitude">Longitude : </label>
+                <input style="margin-top: 0.5rem; width: 100%" type="text" name="zb_property_longitude"
+                       id="zb_property_longitude"
+                       value="<?php echo isset( $_GET['post'] ) ? get_post_meta( $_GET['post'] )['longitude'][0] : ''; ?>"
+                       placeholder="Longitude">
+            </div>
 		<?php }
 
 		add_meta_box( 'property_settings_mb', 'Property Settings', 'property_settings_mb_fields', 'zb_property', 'side', 'high' );

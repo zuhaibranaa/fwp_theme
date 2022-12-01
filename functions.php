@@ -26,7 +26,9 @@ add_action( 'widgets_init', 'green_property_register_widgets' );
 // Custom POST TYPE Columns
 add_filter( 'manage_zb_property_posts_columns', 'custom_post_type_columns' );
 function custom_post_type_columns( $columns ) {
-	$columns['price'] = 'Price';
+	$columns['price']     = 'Price';
+	$columns['latitude']  = 'Latitude';
+	$columns['longitude'] = 'Longitude';
 
 	return $columns;
 }
@@ -37,10 +39,16 @@ function fill_custom_post_type_columns( $column, $post_id ) {
 	if ( $column === 'price' ) {
 		echo get_post_meta( $post_id, 'price', true );
 	}
+	if ( $column === 'latitude' ) {
+		echo get_post_meta( $post_id, 'latitude', true );
+	}
+	if ( $column === 'longitude' ) {
+		echo get_post_meta( $post_id, 'longitude', true );
+	}
 }
 
 
-// register Nav Menut
+// register Nav Menu
 if ( ! function_exists( 'mytheme_register_nav_menu' ) ) {
 
 	function mytheme_register_nav_menu() {
@@ -58,8 +66,12 @@ if ( ! function_exists( 'mytheme_register_nav_menu' ) ) {
 if ( ! function_exists( 'save_custom_meta' ) ) {
 	function save_custom_meta( $post_id ) {
 		if ( get_post_type() === 'zb_property' ) {
-			$price = $_POST['zb_property_price'] ?? null;
+			$price     = $_POST['zb_property_price'] ?? null;
+			$latitude  = $_POST['zb_property_latitude'] ?? null;
+			$longitude = $_POST['zb_property_longitude'] ?? null;
 			update_post_meta( $post_id, 'price', $price );
+			update_post_meta( $post_id, 'latitude', $latitude );
+			update_post_meta( $post_id, 'longitude', $longitude );
 		}
 	}
 
@@ -111,13 +123,21 @@ add_filter( 'pre_get_posts', 'control_search_results' );
 
 add_action( 'wp_enqueue_scripts', 'my_plugin_assets' );
 function my_plugin_assets() {
+	wp_enqueue_style( 'select_2_css', get_template_directory_uri() . "/assets/select2/select2.min.css" );
+	wp_enqueue_style( 'select_2_bootstrap_css', get_template_directory_uri() . "/assets/select2/select2-bootstrap.min.css" );
+	wp_enqueue_style( 'jqte', get_template_directory_uri() . "/assets/jqte/jquery-te-1.4.0.css" );
+
+
+	wp_enqueue_script( 'leaflet', get_template_directory_uri() . "/assets/leaflet/leaflet.js", array( 'jquery' ) );
+	wp_enqueue_script( 'jqte_js', get_template_directory_uri() . "/assets/jqte/jquery-te-1.4.0.min.js", array( 'jquery' ) );
+	wp_enqueue_script( 'select_2_js', get_template_directory_uri() . "/assets/select2/select2.min.js", array( 'jquery' ) );
+	wp_enqueue_script( 'dropzone', get_template_directory_uri() . "/assets/dropzone/dropzone.min.js", array( 'jquery' ), '', true );
 	wp_enqueue_script( 'owl-', get_template_directory_uri() . "/assets/owl-carousel/owl.carousel.js", array( 'jquery' ) );
 	wp_enqueue_script( 'modernizer', get_template_directory_uri() . "/assets/slitslider/js/modernizr.custom.79639.js", array( 'jquery' ) );
 	wp_enqueue_script( 'slitslider-jq', get_template_directory_uri() . "/assets/slitslider/js/jquery.ba-cond.min.js", array( 'jquery' ) );
 	wp_enqueue_script( 'slitslider-jq-2', get_template_directory_uri() . "/assets/slitslider/js/jquery.slitslider.js", array( 'jquery' ) );
 	wp_enqueue_script( 'range-slider', get_template_directory_uri() . "/assets/om-javascript-range-slider.js", array( 'jquery' ) );
-	wp_enqueue_script( 'custom-script', get_template_directory_uri() . "/assets/script.js", array( 'jquery' ) );
-//	wp_enqueue_script( 'custom-script', get_template_directory_uri() . "/assets/script.js", array( 'jquery' ) );
+	wp_enqueue_script( 'custom-script', get_template_directory_uri() . "/assets/script.js", array( 'jquery' ), '', true );
 //	wp_enqueue_script( 'custom-script', get_template_directory_uri() . "/assets/script.js", array( 'jquery' ) );
 
 	wp_localize_script( 'custom-script', 'ajax_object',
